@@ -89,33 +89,33 @@ footer{text-align:center;color:var(--muted);padding:30px 0 40px;font-size:.9rem}
   <div class="team" id="team"></div>
 </section>
 
-<footer>Alla priser och tider är ungefärliga och bekräftas av teamet innan reparation.</footer>
+<footer>Alla priser och tider är ungefärliga och bekräftas av teamet innan reparation. <span style="opacity:.6">(sidversion 3)</span></footer>
 </div>
 
 <script>
 /* ====== ÄNDRA HÄR ====== */
 /* Klistra in webbadressen från Google Apps Script här (se instruktioner). */
-const SHEET_URL="https://script.google.com/macros/s/AKfycbxPutHImUa3jjBgk-QTBxTVsRyQZuP7RsamdcbaeggjBK6C_s3VKAL61Y05qJ_2XXP4ZA/exec";
+const SHEET_URL="https://script.google.com/macros/s/AKfycbzNSKI0u9m0FmcN3AJnfBU9qSEacgGRoB5iTMVCjkns1iI2yztsBie64HT2hav1r4Jcuw/exec";
 const TEAM=[
-  {name:"Simon",email:"Simon.Joakimsson@utb.tyreso.se"},
-  {name:"Elliot",email:"Elliot.Vakoniemi@utb.tyreso.se"},
-  {name:"Marino",email:"Marino.jurkovic@utb.tyreso.se"},
-  {name:"Hussein",email:"Hussein.falhi@utb.tyreso.se"}
+  {name:"Simon",email:"Simon.Joakimsson@utb.tyreso.se",role:"Skärmbyten",does:["screen"]},
+  {name:"Elliot",email:"Elliot.Vakoniemi@utb.tyreso.se",role:"Batteri & laddning",does:["battery","charging"]},
+  {name:"Marino",email:"Marino.jurkovic@utb.tyreso.se",role:"Kameror & baksida",does:["camera","back"]},
+  {name:"Hussein",email:"Hussein.falhi@utb.tyreso.se",role:"Ljud, vattenskador & övrigt",does:["audio","water","other"]}
 ];
 /* pris [iPhone 6/6s, 7/8, X] i kr, samt dagar */
 const PROBLEMS={
-  screen:{label:"skärmbyte",p:[350,400,450],d:3,re:/spr[iu]ck|skärm|display|krossad|glas(et)? (är )?trasig|touch/i},
-  battery:{label:"batteribyte",p:[300,325,350],d:2,re:/batteri|laddar ur|håller inte|dör fort|stängs av/i},
-  camera:{label:"kamerareparation",p:[250,310,350],d:3,re:/kamer|kammer|linsen/i},
-  charging:{label:"laddporten",p:[175,225,250],d:2,re:/laddport|laddar inte|laddning|laddkontakt|kontakt/i},
+  screen:{label:"skärmbyte",p:[250,350,500],d:3,re:/spr[iu]ck|skärm|display|krossad|glas(et)? (är )?trasig|touch/i},
+  battery:{label:"batteribyte",p:[150,200,250],d:2,re:/batteri|laddar ur|håller inte|dör fort|stängs av/i},
+  camera:{label:"kamerareparation",p:[200,250,350],d:3,re:/kamer|kammer|linsen/i},
+  charging:{label:"laddporten",p:[150,200,250],d:2,re:/laddport|laddar inte|laddning|laddkontakt|kontakt/i},
   audio:{label:"ljud/mikrofon",p:[150,200,250],d:2,re:/högtal|ljud|mikrofon|hörs inte|samtal/i},
   water:{label:"vattenskada",p:[200,300,400],d:5,re:/vatten|blöt|dränkt|fukt|badet|regn/i},
   back:{label:"baksida (glas)",p:[200,300,400],d:4,re:/baksida|bakglas|bak glas|bakre glas/i}
 };
 const CASES=[
-  {model:"",title:"",before:"",after:"",problem:"",fix:"",price:"",time:""},
-  {model:"",title:"",before:"",after:"",problem:"",fix:"",price:"",time:""},
-  {model:"",title:"",before:"",after:"",problem:"",fix:"",price:"",time:""}
+  {model:"iPhone 7",title:"Krossad skärm + trasig kamera",before:"",after:"",problem:"Skärmen hade djupa sprickor och bakre kameran gav bara svart bild.",fix:"Vi bytte hela skärmen och kameramodulen, och testade alla funktioner efteråt.",price:"ca 600 kr",time:"4 dagar"},
+  {model:"iPhone 6s",title:"Batteriet dog efter en timme",before:"",after:"",problem:"Telefonen stängdes av vid 30 % batteri.",fix:"Vi öppnade telefonen, bytte batteriet och satte tillbaka nytt tätningslim.",price:"ca 150 kr",time:"1 dag"},
+  {model:"iPhone X",title:"Laddar inte",before:"",after:"",problem:"Kabeln satt löst och telefonen laddade bara ibland.",fix:"Laddporten var full av damm och en kontakt var skadad. Vi rengjorde och bytte den.",price:"ca 250 kr",time:"2 dagar"}
 ];
 /* Bilder: lägg bildfilerna i en mapp "bilder" bredvid index.html och skriv t.ex. before:"bilder/iphone7-fore.jpg" */
 /* ======================= */
@@ -126,6 +126,9 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 $("#team").innerHTML=TEAM.map(t=>`<div class="card"><b>${t.name}</b><br><span class="hint">${t.role}</span><br><a href="mailto:${t.email}">${t.email}</a></div>`).join("");
 
 $("#go").onclick=()=>{
+  try{run()}catch(err){const o=$("#result");o.style.display="block";o.innerHTML='<span class="err">Något gick fel: '+esc(err.message)+'</span>'}
+};
+function run(){
   const text=$("#desc").value.trim(), out=$("#result");
   out.style.display="block";
   if(!text){out.innerHTML='<span class="err">Skriv en beskrivning först.</span>';return}
@@ -153,7 +156,7 @@ $("#go").onclick=()=>{
   <p>Vi kommer kunna fixa din ${modelName} (${esc(probs)}) ${time} för ungefär ${priceTxt}. ${person.name} kan hjälpa dig.</p>
   <div class="stats"><div class="stat"><b>${priceTxt}</b><small>Ungefärligt pris</small></div><div class="stat"><b>${time.replace("inom ","")}</b><small>Tid</small></div><div class="stat"><b>${person.name}</b><small>Ansvarig</small></div></div>
   <p class="hint">Detta är en uppskattning. Skicka din beskrivning så bekräftar vi.</p>${sendBtn(name,text,modelName,priceTxt,time,person.name,person.email)}`;
-};
+}
 let lastReq=null;
 function sendBtn(name,text,model,price,time,person){
   lastReq={name:name||"",model,text,price,time,person};
@@ -165,10 +168,8 @@ async function sendReq(){
   if(!contact){msg.innerHTML='<span class="err">Fyll i mejl eller telefonnummer så vi kan svara dig.</span>';return}
   if(!$("#consent").checked){msg.innerHTML='<span class="err">Bocka i rutan för att godkänna att vi sparar dina uppgifter.</span>';return}
   const data={...lastReq,contact};
-  if(!SHEET_URL){ /* reservlösning tills Google Sheets är kopplat */
-    const to=TEAM.map(t=>t.email).join(",");
-    const body=`Namn: ${data.name}\nKontakt: ${contact}\nTelefon: ${data.model}\nBeskrivning: ${data.text}\nUppskattning: ${data.price}, ${data.time}, ${data.person}`;
-    location.href=`mailto:${to}?subject=${encodeURIComponent("Reparationsförfrågan: "+data.model)}&body=${encodeURIComponent(body)}`;
+  if(!SHEET_URL){
+    msg.innerHTML='<span class="err">Skickandet är inte kopplat till Google Sheets än. Lägg in webbadressen i SHEET_URL i index.html.</span>';
     return;
   }
   const btn=$("#send"); btn.disabled=true; msg.textContent="Skickar...";
