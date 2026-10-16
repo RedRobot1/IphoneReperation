@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Student iPhone-Fix – Reparation av iPhone 6 till X</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#111827;--muted:#5b6475;--brand:#2563eb;--brand-t:#fff;--line:#e3e7ef;--ok:#e8f5ee;--okt:#14693a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1117;--card:#161b22;--text:#e6edf3;--muted:#9aa4b2;--brand:#4f8cff;--brand-t:#06101f;--line:#2a313c;--ok:#12301f;--okt:#6fdc9a}}
+:root[data-theme="dark"]{--bg:#0d1117;--card:#161b22;--text:#e6edf3;--muted:#9aa4b2;--brand:#4f8cff;--brand-t:#06101f;--line:#2a313c;--ok:#12301f;--okt:#6fdc9a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+header{padding:56px 0 36px;text-align:center}
+.badge{display:inline-block;background:var(--card);border:1px solid var(--line);padding:6px 14px;border-radius:99px;font-size:.85rem;color:var(--muted)}
+h1{font-size:clamp(2rem,6vw,3.2rem);margin:16px 0 10px;line-height:1.1}
+h1 span{color:var(--brand)}
+header p{color:var(--muted);max-width:560px;margin:0 auto;font-size:1.1rem}
+section{margin:28px 0}
+h2{font-size:1.5rem;margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+label{display:block;font-weight:600;margin:14px 0 6px}
+input,textarea{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font:inherit;background:var(--bg);color:var(--text)}
+textarea{min-height:120px;resize:vertical}
+button,.btn{background:var(--brand);color:var(--brand-t);border:0;border-radius:10px;padding:12px 20px;font:inherit;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
+button.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.hint{color:var(--muted);font-size:.9rem;margin-top:6px}
+#result{display:none;margin-top:20px;background:var(--ok);color:var(--text);border-radius:12px;padding:20px}
+#result h3{margin:0 0 8px;color:var(--okt)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.stat{background:var(--card);border-radius:10px;padding:12px;text-align:center}
+.stat b{display:block;font-size:1.15rem}.stat small{color:var(--muted)}
+.err{color:#d33}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.steps .card{padding:18px}.steps b{color:var(--brand)}
+.gal-top{display:flex;gap:8px;margin-bottom:12px}
+.pic{aspect-ratio:4/3;border-radius:12px;background:var(--bg);border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;color:var(--muted);overflow:hidden;text-align:center;padding:10px}
+.pic img{width:100%;height:100%;object-fit:cover}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 6px}
+.chip{background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:4px 12px;font-size:.9rem}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+.dots span{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--line);margin:0 3px}
+.dots span.on{background:var(--brand)}
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.team .card{padding:18px}.team a{color:var(--brand);word-break:break-all;font-size:.9rem}
+footer{text-align:center;color:var(--muted);padding:30px 0 40px;font-size:.9rem}
+@media(max-width:520px){.stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <span class="badge">📱 Elevdriven reparationsservice</span>
+  <h1>Trasig iPhone? <span>Vi fixar den.</span></h1>
+  <p>Vi reparerar iPhone 6 till iPhone X. Beskriv problemet nedan och få en prisuppskattning direkt.</p>
+</header>
+
+<section id="form">
+  <h2>Få en prisuppskattning</h2>
+  <div class="card">
+    <label for="name">Ditt namn</label>
+    <input id="name" placeholder="t.ex. Joel" autocomplete="given-name">
+    <label for="contact">Mejl eller telefonnummer (så vi kan svara dig)</label>
+    <input id="contact" placeholder="t.ex. joel@mail.se eller 070-123 45 67" autocomplete="email">
+    <label for="desc">Beskriv din telefon och problemet</label>
+    <textarea id="desc" placeholder='t.ex. "iPhone 7. Sprickor i skärmen, bakre kameran funkar inte."'></textarea>
+    <p class="hint">Skriv vilken modell du har (6, 6s, 7, 8 eller X) och vad som är fel.</p>
+    <p><button id="go">Få svar</button></p>
+    <div id="result" aria-live="polite"></div>
+  </div>
+</section>
+
+<section>
+  <h2>Så fungerar det</h2>
+  <div class="steps">
+    <div class="card"><b>1. Beskriv</b><br>Berätta modell och problem i formuläret.</div>
+    <div class="card"><b>2. Få uppskattning</b><br>Du ser ungefärligt pris, tid och vem som hjälper dig.</div>
+    <div class="card"><b>3. Skicka till oss</b><br>Ett mejl med din beskrivning skickas till teamet.</div>
+  </div>
+</section>
+
+<section>
+  <h2>Telefoner vi har fixat</h2>
+  <div class="card" id="gal"></div>
+</section>
+
+<section>
+  <h2>Vårt team</h2>
+  <div class="team" id="team"></div>
+</section>
+
+<footer>Alla priser och tider är ungefärliga och bekräftas av teamet innan reparation.</footer>
+</div>
+
+<script>
+/* ====== ÄNDRA HÄR ====== */
+/* Klistra in webbadressen från Google Apps Script här (se instruktioner). */
+const SHEET_URL="https://script.google.com/macros/s/AKfycbzVeGYbflFacQeuA6WiyBesnQcSnHHZT8mYnmvmVEUBOMkmHiii0s3-Au_1_5prbsFs/exec";
+const TEAM=[
+  {name:"Simon",email:"Simon.Joakimsson@utb.tyreso.se"},
+  {name:"Elliot",email:"Elliot.Vakoniemi@utb.tyreso.se"},
+  {name:"Marino",email:"Marino.jurkovic@utb.tyreso.se"},
+  {name:"Hussein",email:"Hussein.falhi@utb.tyreso.se"}
+];
+/* pris [iPhone 6/6s, 7/8, X] i kr, samt dagar */
+const PROBLEMS={
+  screen:{label:"skärmbyte",p:[350,400,450],d:3,re:/spr[iu]ck|skärm|display|krossad|glas(et)? (är )?trasig|touch/i},
+  battery:{label:"batteribyte",p:[300,325,350],d:2,re:/batteri|laddar ur|håller inte|dör fort|stängs av/i},
+  camera:{label:"kamerareparation",p:[250,310,350],d:3,re:/kamer|kammer|linsen/i},
+  charging:{label:"laddporten",p:[175,225,250],d:2,re:/laddport|laddar inte|laddning|laddkontakt|kontakt/i},
+  audio:{label:"ljud/mikrofon",p:[150,200,250],d:2,re:/högtal|ljud|mikrofon|hörs inte|samtal/i},
+  water:{label:"vattenskada",p:[200,300,400],d:5,re:/vatten|blöt|dränkt|fukt|badet|regn/i},
+  back:{label:"baksida (glas)",p:[200,300,400],d:4,re:/baksida|bakglas|bak glas|bakre glas/i}
+};
+const CASES=[
+  {model:"iPhone 7",title:"Krossad skärm + trasig kamera",before:"",after:"",problem:"Skärmen hade djupa sprickor och bakre kameran gav bara svart bild.",fix:"Vi bytte hela skärmen och kameramodulen, och testade alla funktioner efteråt.",price:"ca 600 kr",time:"4 dagar"},
+  {model:"iPhone 6s",title:"Batteriet dog efter en timme",before:"",after:"",problem:"Telefonen stängdes av vid 30 % batteri.",fix:"Vi öppnade telefonen, bytte batteriet och satte tillbaka nytt tätningslim.",price:"ca 150 kr",time:"1 dag"},
+  {model:"iPhone X",title:"Laddar inte",before:"",after:"",problem:"Kabeln satt löst och telefonen laddade bara ibland.",fix:"Laddporten var full av damm och en kontakt var skadad. Vi rengjorde och bytte den.",price:"ca 250 kr",time:"2 dagar"}
+];
+/* Bilder: lägg bildfilerna i en mapp "bilder" bredvid index.html och skriv t.ex. before:"bilder/iphone7-fore.jpg" */
+/* ======================= */
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+$("#team").innerHTML=TEAM.map(t=>`<div class="card"><b>${t.name}</b><br><span class="hint">${t.role}</span><br><a href="mailto:${t.email}">${t.email}</a></div>`).join("");
+
+$("#go").onclick=()=>{
+  const text=$("#desc").value.trim(), out=$("#result");
+  out.style.display="block";
+  if(!text){out.innerHTML='<span class="err">Skriv en beskrivning först.</span>';return}
+  let name=$("#name").value.trim();
+  if(!name){const m=text.match(/(?:heter|namn(?: är)?|jag är)\s*"?([A-Za-zÅÄÖåäö]+)/i);if(m)name=m[1]}
+  const mm=text.match(/iphone\s*(6s|6|7|8|x)\b(\s*plus)?/i)||text.match(/\b(6s|6|7|8|x)\b(\s*plus)?/i);
+  if(!mm){out.innerHTML='<span class="err">Vi hittade ingen modell. Skriv t.ex. "iPhone 7". Vi reparerar iPhone 6, 6s, 7, 8 och X.</span>';return}
+  const mod=mm[1].toLowerCase(), plus=!!mm[2];
+  const tier=(mod==="6"||mod==="6s")?0:(mod==="x"?2:1);
+  const modelName="iPhone "+mod.toUpperCase().replace("S","s")+(plus?" Plus":"");
+  let found=Object.keys(PROBLEMS).filter(k=>PROBLEMS[k].re.test(text));
+  if(found.includes("back")&&found.includes("screen")&&!/skärm|display/i.test(text.replace(/baksida|bakglas/gi,""))) found=found.filter(k=>k!=="screen");
+  if(!found.length){
+    out.innerHTML=`<h3>Vi behöver titta på den</h3><p>Vi kunde inte tolka problemet automatiskt, men skicka din beskrivning till oss så tittar vi på din ${modelName} och återkommer.</p>${sendBtn(name,text,modelName,"–","–","–")}`;
+    return;
+  }
+  let price=0,days=0;
+  found.forEach((k,i)=>{price+=PROBLEMS[k].p[tier]+(plus?50:0);days=Math.max(days,PROBLEMS[k].d)+(i>0?1:0)});
+  const lo=Math.round(price*0.9/10)*10, hi=Math.round(price*1.1/10)*10;
+  const person=TEAM.find(t=>t.does.includes(found[0]))||TEAM[0];
+  const time=days>5?"inom en vecka":`inom ${days} dagar`;
+  const probs=found.map(k=>PROBLEMS[k].label).join(" och ");
+  const priceTxt=`${lo}–${hi} kr`;
+  out.innerHTML=`<h3>${name?"Hej "+esc(name)+"! ":""}Vi kan hjälpa dig 🎉</h3>
+  <p>Vi kommer kunna fixa din ${modelName} (${esc(probs)}) ${time} för ungefär ${priceTxt}. ${person.name} kan hjälpa dig.</p>
+  <div class="stats"><div class="stat"><b>${priceTxt}</b><small>Ungefärligt pris</small></div><div class="stat"><b>${time.replace("inom ","")}</b><small>Tid</small></div><div class="stat"><b>${person.name}</b><small>Ansvarig</small></div></div>
+  <p class="hint">Detta är en uppskattning. Skicka din beskrivning så bekräftar vi.</p>${sendBtn(name,text,modelName,priceTxt,time,person.name,person.email)}`;
+};
+let lastReq=null;
+function sendBtn(name,text,model,price,time,person){
+  lastReq={name:name||"",model,text,price,time,person};
+  return `<label style="display:flex;gap:8px;font-weight:400;align-items:flex-start"><input type="checkbox" id="consent" style="width:auto;margin-top:5px"><span>Jag godkänner att mina uppgifter sparas och används av teamet för att kontakta mig om reparationen.</span></label>
+  <p><button id="send" onclick="sendReq()">✉️ Skicka till teamet</button></p><div id="sendmsg" class="hint"></div>`;
+}
+async function sendReq(){
+  const msg=$("#sendmsg"), contact=$("#contact").value.trim();
+  if(!contact){msg.innerHTML='<span class="err">Fyll i mejl eller telefonnummer så vi kan svara dig.</span>';return}
+  if(!$("#consent").checked){msg.innerHTML='<span class="err">Bocka i rutan för att godkänna att vi sparar dina uppgifter.</span>';return}
+  const data={...lastReq,contact};
+  if(!SHEET_URL){ /* reservlösning tills Google Sheets är kopplat */
+    const to=TEAM.map(t=>t.email).join(",");
+    const body=`Namn: ${data.name}\nKontakt: ${contact}\nTelefon: ${data.model}\nBeskrivning: ${data.text}\nUppskattning: ${data.price}, ${data.time}, ${data.person}`;
+    location.href=`mailto:${to}?subject=${encodeURIComponent("Reparationsförfrågan: "+data.model)}&body=${encodeURIComponent(body)}`;
+    return;
+  }
+  const btn=$("#send"); btn.disabled=true; msg.textContent="Skickar...";
+  try{
+    await fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)});
+    $("#result").innerHTML='<h3>Tack! ✅</h3><p>Din förfrågan är skickad. Vi hör av oss på det mejl eller nummer du angav.</p>';
+  }catch(err){
+    btn.disabled=false; msg.innerHTML='<span class="err">Något gick fel. Försök igen eller mejla oss direkt.</span>';
+  }
+}
+
+/* Galleri */
+let ci=0,showAfter=false;
+function renderGal(){
+  const c=CASES[ci], src=showAfter?c.after:c.before, lab=showAfter?"Efter":"Före";
+  $("#gal").innerHTML=`<div class="gal-top"><button class="${showAfter?"ghost":""}" onclick="showAfter=false;renderGal()">Före</button><button class="${showAfter?"":"ghost"}" onclick="showAfter=true;renderGal()">Efter</button></div>
+  <div class="pic">${src?`<img src="${src}" alt="${lab} reparation ${esc(c.model)}">`:`📷 ${lab}-bild (lägg in en bild här)`}</div>
+  <h3 style="margin:16px 0 4px">${esc(c.model)}: ${esc(c.title)}</h3>
+  <div class="meta"><span class="chip">💰 ${esc(c.price)}</span><span class="chip">⏱ ${esc(c.time)}</span></div>
+  <p><b>Problem:</b> ${esc(c.problem)}</p><p><b>Så fixade vi det:</b> ${esc(c.fix)}</p>
+  <div class="nav"><button class="ghost" onclick="ci=(ci+CASES.length-1)%CASES.length;showAfter=false;renderGal()">← Föregående</button>
+  <div class="dots">${CASES.map((_,i)=>`<span class="${i===ci?"on":""}"></span>`).join("")}</div>
+  <button class="ghost" onclick="ci=(ci+1)%CASES.length;showAfter=false;renderGal()">Nästa →</button></div>`;
+}
+renderGal();
+</script>
+</body>
+</html>
